@@ -36,9 +36,10 @@ for iEdge in range(E):
             edgeList.append((nodeA, nodeB))
             break
 
-# drawing the graph, just for fun
+# drawing the graph, just for fun, and to get the coordinates for nodes
 plt.figure(figsize=[5,5])
-pos = nx.spring_layout(G, k=5, iterations=500) # positions for all nodes
+posInit = nx.kamada_kawai_layout(G)
+pos = nx.spring_layout(G, k=13, iterations=1000, pos=posInit) # positions for all nodes
 nx.draw_networkx_nodes(G, pos, node_size=100)
 nx.draw_networkx_edges(G, pos, edge_color='lightblue')
 plt.axis('off')
