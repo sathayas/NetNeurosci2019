@@ -69,17 +69,23 @@ plt.xlabel('<k>', color='w', fontsize=18)
 for axis in ['top','bottom','left','right']:
   ax.spines[axis].set_linewidth(2)
   ax.spines[axis].set_color('white')
-plt.axis('on')
 ax.set_facecolor('k')
 
 plt.show()
 
 
+
+#
 # adding a single edge and drawing
+#
+plotX = [0]
+plotY = [0]
 for iEdge in edgeList[:1]:
     G.add_edge(iEdge[0], iEdge[1])
-    plt.figure(figsize=[5,5], facecolor='k')
-    plt.subplot(111)
+    plt.figure(figsize=[8,4], facecolor='k')
+
+    # Left panel, network
+    plt.subplot(121, position=[0.0,0.0,0.5,1.0])
     # drawing nodes and edges
     nx.draw_networkx_edges(G, pos, edge_color='skyblue', width=3.0)
     nx.draw_networkx_nodes(G, pos, node_size=30, node_color = 'salmon',
@@ -101,5 +107,21 @@ for iEdge in edgeList[:1]:
                                         linewidth=None)
 
     plt.axis('off')
-    plt.subplots_adjust(bottom=0, top=1, left=0, right=1)
+
+
+    # right panel: giant component size
+    plotX.append(len(G.edges())/N)
+    plotY.append(len(GC.nodes())/N)
+    plt.subplot(122, position=[0.625,0.15,0.35,0.7])
+    plt.plot(plotX, plotY,'-', linewidth=3.0, color='skyblue')
+    ax = plt.gca()
+    plt.xlim(xLimER)
+    plt.ylim(yLimER)
+    plt.ylabel('Giant component\nsize', color='w', fontsize=18)
+    plt.xlabel('<k>', color='w', fontsize=18)
+    for axis in ['top','bottom','left','right']:
+      ax.spines[axis].set_linewidth(2)
+      ax.spines[axis].set_color('white')
+    ax.set_facecolor('k')
+
     plt.show()
