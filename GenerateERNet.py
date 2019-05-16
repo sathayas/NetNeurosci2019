@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 random.seed(2019)
 
 # Parameters
-N = 1000  # Number of nodes
-E = 1500  # Number of edges
+N = 300  # Number of nodes
+E = 450  # Number of edges
 
 
 # Initializing the graph
@@ -37,21 +37,17 @@ for iEdge in range(E):
             break
 
 # drawing the graph, just for fun
-# plt.figure(figsize=[9,9])
-# pos = nx.kamada_kawai_layout(G, weight=None) # positions for all nodes
-# nx.draw_networkx_nodes(G, pos, node_size=30)
-# nx.draw_networkx_edges(G, pos, edge_color='lightblue')
-# plt.axis('off')
-# plt.show()
+plt.figure(figsize=[9,9])
+pos = nx.spring_layout(G, k=0.3, iterations=20) # positions for all nodes
+nx.draw_networkx_nodes(G, pos, node_size=100)
+nx.draw_networkx_edges(G, pos, edge_color='lightblue')
+plt.axis('off')
+plt.show()
 
-
-# Saving the graph to be exported to Gephi
-fNameGML = 'ER_N%d' % N + '_E%d' % E + '.gml'
-nx.write_gml(G, fNameGML)
 
 # writing out the edge list, in sequential order
-fNameEdgeList = 'edges_ER_N%d' % N + '_E%d' % E + '.txt'
-f = open(fNameEdgeList,'w')
-for iEdge in edgeList:
-    f.write('%4d  %4d\n' % iEdge)
-f.close()
+# fNameEdgeList = 'edges_ER_N%d' % N + '_E%d' % E + '.txt'
+# f = open(fNameEdgeList,'w')
+# for iEdge in edgeList:
+#     f.write('%4d  %4d\n' % iEdge)
+# f.close()
