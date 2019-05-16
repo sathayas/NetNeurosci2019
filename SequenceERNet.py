@@ -59,14 +59,13 @@ nx.draw_networkx_nodes(G, pos, node_size=30, node_color = 'salmon',
 plt.axis('off')
 
 # right panel: giant component size
-plt.subplot(122, position=[0.6,0.3,0.3,0.6])
+plt.subplot(122, position=[0.625,0.15,0.35,0.7])
 plt.plot(0,0,'.', linewidth=2.0, color='skyblue')
 ax = plt.gca()
 plt.xlim(xLimER)
 plt.ylim(yLimER)
-plt.title('Giant component size vs <k>', color='w')
-plt.ylabel('Relative giant component size', color='w')
-plt.xlabel('<k>', color='w')
+plt.ylabel('Giant component\nsize', color='w', fontsize=18)
+plt.xlabel('<k>', color='w', fontsize=18)
 for axis in ['top','bottom','left','right']:
   ax.spines[axis].set_linewidth(2)
   ax.spines[axis].set_color('white')
