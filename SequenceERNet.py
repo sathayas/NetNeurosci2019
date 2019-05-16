@@ -7,8 +7,8 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 # Parameters
-N = 100  # Number of nodes
-E = 150  # Number of edges
+N = 200  # Number of nodes
+E = 300  # Number of edges
 
 
 # Initializing the graph
@@ -47,8 +47,18 @@ g.close()
 
 
 
+# drawing with no edges
+plt.figure(figsize=[5,5], facecolor='k')
+plt.subplot(111)
+nx.draw_networkx_nodes(G, pos, node_size=30, node_color = 'salmon',
+                        linewidth=None)
+plt.axis('off')
+plt.subplots_adjust(bottom=0, top=1, left=0, right=1)
+plt.show()
+
+
 # adding a single edge and drawing
-for iEdge in edgeList[:20]:
+for iEdge in edgeList[:10]:
     G.add_edge(iEdge[0], iEdge[1])
     plt.figure(figsize=[5,5], facecolor='k')
     plt.subplot(111)
@@ -69,7 +79,7 @@ for iEdge in edgeList[:20]:
         for iCC in CC[1:]:
             if len(iCC)>1:
                 nx.draw_networkx_nodes(G, pos, nodelist = iCC.nodes(),
-                                        node_size=75, node_color = 'crimson',
+                                        node_size=30, node_color = 'crimson',
                                         linewidth=None)
 
     plt.axis('off')

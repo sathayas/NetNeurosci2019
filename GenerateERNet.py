@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 random.seed(2019)
 
 # Parameters
-N = 100  # Number of nodes
-E = 150  # Number of edges
+N = 200  # Number of nodes
+E = 300  # Number of edges
 
 
 # Initializing the graph
@@ -39,7 +39,7 @@ for iEdge in range(E):
 # drawing the graph, just for fun, and to get the coordinates for nodes
 plt.figure(figsize=[5,5])
 posInit = nx.kamada_kawai_layout(G)
-pos = nx.spring_layout(G, k=13, iterations=1000, pos=posInit) # positions for all nodes
+pos = nx.spring_layout(G, k=8.5, iterations=1000, pos=posInit) # positions for all nodes
 nx.draw_networkx_nodes(G, pos, node_size=100)
 nx.draw_networkx_edges(G, pos, edge_color='lightblue')
 plt.axis('off')
