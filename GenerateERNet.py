@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 random.seed(2019)
 
 # Parameters
-N = 300  # Number of nodes
-E = 450  # Number of edges
+N = 100  # Number of nodes
+E = 150  # Number of edges
 
 
 # Initializing the graph
@@ -37,8 +37,8 @@ for iEdge in range(E):
             break
 
 # drawing the graph, just for fun
-plt.figure(figsize=[9,9])
-pos = nx.spring_layout(G, k=0.3, iterations=20) # positions for all nodes
+plt.figure(figsize=[5,5])
+pos = nx.spring_layout(G, k=5, iterations=500) # positions for all nodes
 nx.draw_networkx_nodes(G, pos, node_size=100)
 nx.draw_networkx_edges(G, pos, edge_color='lightblue')
 plt.axis('off')
