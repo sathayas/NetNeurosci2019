@@ -47,8 +47,18 @@ plt.show()
 
 
 # writing out the edge list, in sequential order
-# fNameEdgeList = 'edges_ER_N%d' % N + '_E%d' % E + '.txt'
-# f = open(fNameEdgeList,'w')
-# for iEdge in edgeList:
-#     f.write('%4d  %4d\n' % iEdge)
-# f.close()
+fNameEdgeList = 'edges_ER_N%d' % N + '_E%d' % E + '.txt'
+f = open(fNameEdgeList,'w')
+for iEdge in edgeList:
+    f.write('%4d  %4d\n' % iEdge)
+f.close()
+
+
+# writing out the node list, with position
+fNameNodeList = 'nodes_ER_N%d' % N + '_E%d' % E + '.txt'
+g = open(fNameNodeList,'w')
+nodeList=sorted(pos.items())
+for iNode, iPos in nodeList:
+    g.write('%4d' % iNode)
+    g.write('  %10.6f  %10.6f\n' % (iPos[0], iPos[1]))
+g.close()
