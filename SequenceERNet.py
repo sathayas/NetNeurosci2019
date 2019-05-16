@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 # Parameters
 N = 200  # Number of nodes
 E = 300  # Number of edges
-
+xLimER = [0, 3.0]
+yLimER = [0, 1.0]
 
 # Initializing the graph
 G = nx.Graph()
@@ -47,18 +48,36 @@ g.close()
 
 
 
-# drawing with no edges
-plt.figure(figsize=[5,5], facecolor='k')
-plt.subplot(111)
+#
+# Network drawing with no edges
+#
+plt.figure(figsize=[8,4], facecolor='k')
+# Just the graph on the left panel
+plt.subplot(121, position=[0.0,0.0,0.5,1.0])
 nx.draw_networkx_nodes(G, pos, node_size=30, node_color = 'salmon',
                         linewidth=None)
 plt.axis('off')
-plt.subplots_adjust(bottom=0, top=1, left=0, right=1)
+
+# right panel: giant component size
+plt.subplot(122, position=[0.6,0.3,0.3,0.6])
+plt.plot(0,0,'.', linewidth=2.0, color='skyblue')
+ax = plt.gca()
+plt.xlim(xLimER)
+plt.ylim(yLimER)
+plt.title('Giant component size vs <k>', color='w')
+plt.ylabel('Relative giant component size', color='w')
+plt.xlabel('<k>', color='w')
+for axis in ['top','bottom','left','right']:
+  ax.spines[axis].set_linewidth(2)
+  ax.spines[axis].set_color('white')
+plt.axis('on')
+ax.set_facecolor('k')
+
 plt.show()
 
 
 # adding a single edge and drawing
-for iEdge in edgeList[:10]:
+for iEdge in edgeList[:1]:
     G.add_edge(iEdge[0], iEdge[1])
     plt.figure(figsize=[5,5], facecolor='k')
     plt.subplot(111)
