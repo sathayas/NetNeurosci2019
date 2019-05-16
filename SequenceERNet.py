@@ -48,3 +48,30 @@ g.close()
 
 
 # adding a single edge and drawing
+for iEdge in edgeList[:20]:
+    G.add_edge(iEdge[0], iEdge[1])
+    plt.figure(figsize=[5,5], facecolor='k')
+    plt.subplot(111)
+    # drawing nodes and edges
+    nx.draw_networkx_edges(G, pos, edge_color='skyblue', width=3.0)
+    nx.draw_networkx_nodes(G, pos, node_size=30, node_color = 'salmon',
+                            linewidth=None)
+    # drawing nodes and edges of the giant component
+    CC = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)
+    GC = CC[0]
+    nx.draw_networkx_edges(G, pos, edgelist = GC.edges(),
+                            edge_color='skyblue', width=6.0)
+    nx.draw_networkx_nodes(G, pos, nodelist = GC.nodes(),
+                            node_size=100, node_color = 'orangered',
+                            linewidth=None)
+    # drawing all the other components
+    if len(CC)>0:
+        for iCC in CC[1:]:
+            if len(iCC)>1:
+                nx.draw_networkx_nodes(G, pos, nodelist = iCC.nodes(),
+                                        node_size=75, node_color = 'crimson',
+                                        linewidth=None)
+
+    plt.axis('off')
+    plt.subplots_adjust(bottom=0, top=1, left=0, right=1)
+    plt.show()
