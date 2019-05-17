@@ -12,7 +12,7 @@ E = 300  # Number of edges
 xLimER = [0, 3.0]
 yLimER = [0, 1.0]
 outDir = 'ER_Percolation_PNG'
-edgeStep =5
+edgeStep = 5
 
 # Initializing the graph
 G = nx.Graph()
@@ -90,21 +90,19 @@ plt.close()
 #
 plotX = [0]
 plotY = [0]
-for iEdge in edgeList[:10]:
+for iEdge in edgeList[:20]:
     G.add_edge(iEdge[0], iEdge[1])
     plt.figure(figsize=[8,4], facecolor='k')
 
     # Left panel, network
     plt.subplot(121, position=[0.0,0.0,0.5,1.0])
     # drawing nodes and edges
-    nx.draw_networkx_edges(G, pos, edge_color='skyblue', width=3.0)
+    nx.draw_networkx_edges(G, pos, edge_color='skyblue', width=2.0)
     nx.draw_networkx_nodes(G, pos, node_size=30, node_color = 'salmon',
                             linewidth=None)
     # drawing nodes and edges of the giant component
     CC = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)
     GC = CC[0]
-    nx.draw_networkx_edges(G, pos, edgelist = GC.edges(),
-                            edge_color='skyblue', width=6.0)
     nx.draw_networkx_nodes(G, pos, nodelist = GC.nodes(),
                             node_size=100, node_color = 'orangered',
                             linewidth=None)
@@ -148,7 +146,7 @@ for iEdge in edgeList[:10]:
 #
 # Adding 5 edges until all edges are added
 #
-for iEdges in range(10,300,edgeStep):
+for iEdges in range(20,300,edgeStep):
     sublistEdges = edgeList[iEdges:(iEdges+edgeStep)]
     G.add_edges_from(sublistEdges)
     plt.figure(figsize=[8,4], facecolor='k')
@@ -156,14 +154,12 @@ for iEdges in range(10,300,edgeStep):
     # Left panel, network
     plt.subplot(121, position=[0.0,0.0,0.5,1.0])
     # drawing nodes and edges
-    nx.draw_networkx_edges(G, pos, edge_color='skyblue', width=3.0)
+    nx.draw_networkx_edges(G, pos, edge_color='skyblue', width=2.0)
     nx.draw_networkx_nodes(G, pos, node_size=30, node_color = 'salmon',
                             linewidth=None)
     # drawing nodes and edges of the giant component
     CC = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)
     GC = CC[0]
-    nx.draw_networkx_edges(G, pos, edgelist = GC.edges(),
-                            edge_color='skyblue', width=6.0)
     nx.draw_networkx_nodes(G, pos, nodelist = GC.nodes(),
                             node_size=100, node_color = 'orangered',
                             linewidth=None)
