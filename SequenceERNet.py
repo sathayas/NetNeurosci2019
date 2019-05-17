@@ -50,7 +50,7 @@ g.close()
 
 
 #
-# Network drawing with no edges
+# Network drawing with no edge
 #
 plt.figure(figsize=[8,4], facecolor='k')
 # Just the graph on the left panel
@@ -60,11 +60,13 @@ nx.draw_networkx_nodes(G, pos, node_size=30, node_color = 'salmon',
 plt.axis('off')
 
 # right panel: giant component size
-plt.subplot(122, position=[0.625,0.15,0.35,0.7])
+plt.subplot(122, position=[0.65,0.15,0.325,0.6])
 plt.plot(0,0,'.', linewidth=2.0, color='skyblue')
 ax = plt.gca()
 plt.xlim(xLimER)
 plt.ylim(yLimER)
+plt.title('E=%d\n<k>=%4.2f\n' % (len(G.edges()), 2*len(G.edges())/N),
+            color='w', fontsize=18)
 plt.ylabel('Giant component\nsize', color='w', fontsize=18)
 plt.xlabel('<k>', color='w', fontsize=18)
 for axis in ['top','bottom','left','right']:
@@ -87,7 +89,7 @@ plt.close()
 #
 plotX = [0]
 plotY = [0]
-for iEdge in edgeList[:300]:
+for iEdge in edgeList[:3]:
     G.add_edge(iEdge[0], iEdge[1])
     plt.figure(figsize=[8,4], facecolor='k')
 
@@ -119,11 +121,13 @@ for iEdge in edgeList[:300]:
     # right panel: giant component size
     plotX.append(2*len(G.edges())/N)
     plotY.append(len(GC.nodes())/N)
-    plt.subplot(122, position=[0.625,0.15,0.35,0.7])
+    plt.subplot(122, position=[0.65,0.15,0.325,0.6])
     plt.plot(plotX, plotY,'-', linewidth=3.0, color='skyblue')
     ax = plt.gca()
     plt.xlim(xLimER)
     plt.ylim(yLimER)
+    plt.title('E=%d\n<k>=%4.2f\n' % (len(G.edges()), 2*len(G.edges())/N),
+                color='w', fontsize=18)
     plt.ylabel('Giant component\nsize', color='w', fontsize=18)
     plt.xlabel('<k>', color='w', fontsize=18)
     for axis in ['top','bottom','left','right']:
