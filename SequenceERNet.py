@@ -58,6 +58,8 @@ plt.figure(figsize=[8,4], facecolor='k')
 plt.subplot(121, position=[0.0,0.0,0.5,1.0])
 nx.draw_networkx_nodes(G, pos, node_size=30, node_color = 'salmon',
                         linewidth=None)
+plt.xlim([-1.0, 1.0])
+plt.ylim([-1.0, 1.0])
 plt.axis('off')
 
 # right panel: giant component size
@@ -114,6 +116,8 @@ for iEdge in edgeList[:20]:
                                         node_size=30, node_color = 'crimson',
                                         linewidth=None)
 
+    plt.xlim([-1.0, 1.0])
+    plt.ylim([-1.0, 1.0])
     plt.axis('off')
 
 
@@ -171,6 +175,8 @@ for iEdges in range(20,300,edgeStep):
                                         node_size=30, node_color = 'crimson',
                                         linewidth=None)
 
+    plt.xlim([-1.0, 1.0])
+    plt.ylim([-1.0, 1.0])
     plt.axis('off')
 
 
