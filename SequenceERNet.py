@@ -58,8 +58,8 @@ plt.figure(figsize=[8,4], facecolor='k')
 plt.subplot(121, position=[0.0,0.0,0.5,1.0])
 nx.draw_networkx_nodes(G, pos, node_size=30, node_color = 'salmon',
                         linewidth=None)
-plt.xlim([-1.0, 1.0])
-plt.ylim([-1.0, 1.0])
+plt.xlim([-1.05, 1.05])
+plt.ylim([-1.05, 1.05])
 plt.axis('off')
 
 # right panel: giant component size
@@ -82,7 +82,7 @@ ax.tick_params(axis='y', colors='white', width=2, which='major', labelsize=14)
 ax.tick_params(axis='y', colors='white', width=2, which='minor')
 
 fFig = 'ERNet_%03d.png' % len(G.edges())
-plt.savefig(os.path.join(outDir,fFig), dpi=150, facecolor='black')
+plt.savefig(os.path.join(outDir,fFig), dpi=128, facecolor='black')
 #plt.show()
 plt.close()
 
@@ -116,8 +116,8 @@ for iEdge in edgeList[:20]:
                                         node_size=30, node_color = 'crimson',
                                         linewidth=None)
 
-    plt.xlim([-1.0, 1.0])
-    plt.ylim([-1.0, 1.0])
+    plt.xlim([-1.05, 1.05])
+    plt.ylim([-1.05, 1.05])
     plt.axis('off')
 
 
@@ -143,7 +143,7 @@ for iEdge in edgeList[:20]:
     ax.tick_params(axis='y', colors='white', width=2, which='minor')
 
     fFig = 'ERNet_%03d.png' % len(G.edges())
-    plt.savefig(os.path.join(outDir,fFig), dpi=150, facecolor='black')
+    plt.savefig(os.path.join(outDir,fFig), dpi=128, facecolor='black')
     #plt.show()
     plt.close()
 
@@ -175,8 +175,8 @@ for iEdges in range(20,300,edgeStep):
                                         node_size=30, node_color = 'crimson',
                                         linewidth=None)
 
-    plt.xlim([-1.0, 1.0])
-    plt.ylim([-1.0, 1.0])
+    plt.xlim([-1.05, 1.05])
+    plt.ylim([-1.05, 1.05])
     plt.axis('off')
 
 
@@ -208,6 +208,6 @@ for iEdges in range(20,300,edgeStep):
     ax.tick_params(axis='y', colors='white', width=2, which='minor')
 
     fFig = 'ERNet_%03d.png' % len(G.edges())
-    plt.savefig(os.path.join(outDir,fFig), dpi=150, facecolor='black')
+    plt.savefig(os.path.join(outDir,fFig), dpi=128, facecolor='black')
     #plt.show()
     plt.close()
