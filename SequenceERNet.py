@@ -11,6 +11,7 @@ N = 200  # Number of nodes
 E = 300  # Number of edges
 xLimER = [0, 3.0]
 yLimER = [0, 1.0]
+outDir = 'ER_Percolation_PNG'
 
 # Initializing the graph
 G = nx.Graph()
@@ -70,9 +71,15 @@ for axis in ['top','bottom','left','right']:
   ax.spines[axis].set_linewidth(2)
   ax.spines[axis].set_color('white')
 ax.set_facecolor('k')
+ax.tick_params(axis='x', colors='white', width=2, which='major', labelsize=14)
+ax.tick_params(axis='x', colors='white', width=2, which='minor')
+ax.tick_params(axis='y', colors='white', width=2, which='major', labelsize=14)
+ax.tick_params(axis='y', colors='white', width=2, which='minor')
 
-plt.show()
-
+fFig = 'ERNet_%03d.png' % len(G.edges())
+plt.savefig(os.path.join(outDir,fFig), dpi=150, facecolor='black')
+#plt.show()
+plt.close()
 
 
 #
@@ -80,7 +87,7 @@ plt.show()
 #
 plotX = [0]
 plotY = [0]
-for iEdge in edgeList[:1]:
+for iEdge in edgeList[:300]:
     G.add_edge(iEdge[0], iEdge[1])
     plt.figure(figsize=[8,4], facecolor='k')
 
@@ -110,7 +117,7 @@ for iEdge in edgeList[:1]:
 
 
     # right panel: giant component size
-    plotX.append(len(G.edges())/N)
+    plotX.append(2*len(G.edges())/N)
     plotY.append(len(GC.nodes())/N)
     plt.subplot(122, position=[0.625,0.15,0.35,0.7])
     plt.plot(plotX, plotY,'-', linewidth=3.0, color='skyblue')
@@ -123,5 +130,12 @@ for iEdge in edgeList[:1]:
       ax.spines[axis].set_linewidth(2)
       ax.spines[axis].set_color('white')
     ax.set_facecolor('k')
+    ax.tick_params(axis='x', colors='white', width=2, which='major', labelsize=14)
+    ax.tick_params(axis='x', colors='white', width=2, which='minor')
+    ax.tick_params(axis='y', colors='white', width=2, which='major', labelsize=14)
+    ax.tick_params(axis='y', colors='white', width=2, which='minor')
 
-    plt.show()
+    fFig = 'ERNet_%03d.png' % len(G.edges())
+    plt.savefig(os.path.join(outDir,fFig), dpi=150, facecolor='black')
+    #plt.show()
+    plt.close()
