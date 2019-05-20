@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 random.seed(2019)
 
 # Parameters
-N = 2000  # Number of nodes
-E = 3000  # Number of edges
+N = 200  # Number of nodes
+E = 300  # Number of edges
 xLimER = [0, 3.0]
 yLimER = [0, 1.0]
 nNet = 100 # Number of networks to be generated
