@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 random.seed(2019)
 
 # Parameters
-N = 200  # Number of nodes
-E = 300  # Number of edges
+N = 2000  # Number of nodes
+E = 3000  # Number of edges
 xLimER = [0, 3.0]
 yLimER = [0, 1.0]
 nNet = 100 # Number of networks to be generated
@@ -46,21 +46,19 @@ for iNet in range(nNet):
 
 
 # right panel: giant component size
-plotX = np.arange(1,E+1)
+plotX = 2*np.arange(1,E+1)/N
 plotY = np.mean(GCSize,axis=0)/N
 
 plt.figure(figsize=[4,4], facecolor='k')
-plt.subplot(122, position=[0.25,0.15,0.85,0.85])
-plt.plot(plotX[plotX<100], plotY[plotX<100],
+plt.subplot(111, position=[0.3,0.15,0.65,0.75])
+plt.plot(plotX[plotX<1], plotY[plotX<1],
         '-', linewidth=3.0, color='skyblue')
-plt.plot(plotX[plotX>=100], plotY[plotX>=100],
+plt.plot(plotX[plotX>=1], plotY[plotX>=1],
         '-', linewidth=3.0, color='crimson')
 ax = plt.gca()
 plt.xlim(xLimER)
 plt.ylim(yLimER)
-plt.title('E=%d\n<k>=%4.2f\n' % (len(G.edges()), 2*len(G.edges())/N),
-            color='w', fontsize=18)
-plt.ylabel('Giant component\nsize', color='w', fontsize=18)
+plt.ylabel('Giant component\nsize (relative)', color='w', fontsize=18)
 plt.xlabel('<k>', color='w', fontsize=18)
 for axis in ['top','bottom','left','right']:
   ax.spines[axis].set_linewidth(2)
