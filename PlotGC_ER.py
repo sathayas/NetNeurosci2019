@@ -69,4 +69,6 @@ ax.tick_params(axis='x', colors='white', width=2, which='minor')
 ax.tick_params(axis='y', colors='white', width=2, which='major', labelsize=14)
 ax.tick_params(axis='y', colors='white', width=2, which='minor')
 
+fFig = 'GCSize_ERNet_%03d.png' % len(G.edges())
+plt.savefig(fFig, dpi=128, facecolor='black')
 plt.show()
