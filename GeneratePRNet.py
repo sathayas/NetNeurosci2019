@@ -8,7 +8,7 @@ from random import choice
 import matplotlib.pyplot as plt
 
 # seeding the random number generator
-random.seed(2019)
+random.seed(2012)
 
 #
 # A function to pick two nodes randomly
@@ -76,12 +76,15 @@ G.add_nodes_from(list(range(1,N+1)))  # adding nodes
 # initializing the recorders
 edgeList = []   # list of edges added
 rejList = []    # list of rejected edges
+GCSize = []  # giant compnent size
 
 # the loop to add random edges
 for iEdge in range(E):
     tmpE, tmpR = connect_nodes(G)
     edgeList.append(tmpE)
     rejList.append(tmpR)
+    cc = sorted(nx.connected_component_subgraphs(G), key = len, reverse=True)
+    GCSize.append(len(cc[0]))
 
 
 
@@ -95,6 +98,9 @@ plt.axis('off')
 plt.show()
 
 
+# Plotting the giant component size
+plt.plot(GCSize)
+plt.show()
 
 
 # writing out the edge list, in sequential order
@@ -107,7 +113,7 @@ f.close()
 
 # writing out the rejected edge list, in sequential order
 fNameRejList = 'rejects_PR_N%d' % N + '_E%d' % E + '.txt'
-f = open(fNameEdgeList,'w')
+f = open(fNameRejList,'w')
 for iEdge in rejList:
     f.write('%4d  %4d\n' % iEdge)
 f.close()
