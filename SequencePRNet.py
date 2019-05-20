@@ -11,8 +11,13 @@ N = 200  # Number of nodes
 E = 300  # Number of edges
 xLimER = [0, 3.0]
 yLimER = [0, 1.0]
-outDir = 'ER_Percolation_PNG'
+outDir = 'PR_Percolation_PNG'
 edgeStep = 5
+nFrameSlomo = 20
+nFrameDup = 2
+posLeft = [0.0,0.0,0.5,1.0]
+posRight = [0.65,0.15,0.325,0.6]
+tc = 180
 
 # Initializing the graph
 G = nx.Graph()
@@ -20,7 +25,7 @@ G.add_nodes_from(list(range(1,N+1)))  # adding nodes
 
 
 # loading edges in sequential order
-fNameEdgeList = 'edges_ER_N%d' % N + '_E%d' % E + '.txt'
+fNameEdgeList = 'edges_PR_N%d' % N + '_E%d' % E + '.txt'
 f = open(fNameEdgeList,'r')
 edgeList = []
 while True:
@@ -33,8 +38,22 @@ while True:
 f.close()
 
 
+# loading rejected edges in sequential order
+fNameRejList = 'rejects_PR_N%d' % N + '_E%d' % E + '.txt'
+f = open(fNameRejList,'r')
+rejList = []
+while True:
+    line = f.readline()
+    if not line:
+        break
+    else:
+        e = [int(x) for x in line.strip().split()]
+        rejList.append(e)
+f.close()
+
+
 # loading nodes and their positions
-fNameNodeList = 'nodes_ER_N%d' % N + '_E%d' % E + '.txt'
+fNameNodeList = 'nodes_PR_N%d' % N + '_E%d' % E + '.txt'
 g = open(fNameNodeList,'r')
 nodeList = []
 pos = {}
@@ -55,7 +74,7 @@ g.close()
 #
 plt.figure(figsize=[8,4], facecolor='k')
 # Just the graph on the left panel
-plt.subplot(121, position=[0.0,0.0,0.5,1.0])
+plt.subplot(121, position=posLeft)
 nx.draw_networkx_nodes(G, pos, node_size=30, node_color = 'salmon',
                         linewidth=None)
 plt.xlim([-1.05, 1.05])
@@ -63,14 +82,14 @@ plt.ylim([-1.05, 1.05])
 plt.axis('off')
 
 # right panel: giant component size
-plt.subplot(122, position=[0.65,0.15,0.325,0.6])
+plt.subplot(122, position=posRight)
 plt.plot(0,0,'.', linewidth=2.0, color='skyblue')
 ax = plt.gca()
 plt.xlim(xLimER)
 plt.ylim(yLimER)
 plt.title('E=%d\n<k>=%4.2f\n' % (len(G.edges()), 2*len(G.edges())/N),
             color='w', fontsize=18)
-plt.ylabel('Giant component\nsize', color='w', fontsize=18)
+plt.ylabel('Giant component\nsize (relative)', color='w', fontsize=18)
 plt.xlabel('<k>', color='w', fontsize=18)
 for axis in ['top','bottom','left','right']:
   ax.spines[axis].set_linewidth(2)
@@ -81,7 +100,7 @@ ax.tick_params(axis='x', colors='white', width=2, which='minor')
 ax.tick_params(axis='y', colors='white', width=2, which='major', labelsize=14)
 ax.tick_params(axis='y', colors='white', width=2, which='minor')
 
-fFig = 'ERNet_%03d.png' % len(G.edges())
+fFig = 'PRNet_%03d.png' % len(G.edges())
 plt.savefig(os.path.join(outDir,fFig), dpi=128, facecolor='black')
 #plt.show()
 plt.close()
@@ -92,12 +111,12 @@ plt.close()
 #
 plotX = [0]
 plotY = [0]
-for iEdge in edgeList[:20]:
+for iEdge in edgeList[:nFrameSlomo]:
     G.add_edge(iEdge[0], iEdge[1])
     plt.figure(figsize=[8,4], facecolor='k')
 
     # Left panel, network
-    plt.subplot(121, position=[0.0,0.0,0.5,1.0])
+    plt.subplot(121, position=posLeft)
     # drawing nodes and edges
     nx.draw_networkx_edges(G, pos, edge_color='skyblue', width=2.0)
     nx.draw_networkx_nodes(G, pos, node_size=30, node_color = 'salmon',
@@ -124,14 +143,14 @@ for iEdge in edgeList[:20]:
     # right panel: giant component size
     plotX.append(2*len(G.edges())/N)
     plotY.append(len(GC.nodes())/N)
-    plt.subplot(122, position=[0.65,0.15,0.325,0.6])
+    plt.subplot(122, position=posRight)
     plt.plot(plotX, plotY,'-', linewidth=3.0, color='skyblue')
     ax = plt.gca()
     plt.xlim(xLimER)
     plt.ylim(yLimER)
     plt.title('E=%d\n<k>=%4.2f\n' % (len(G.edges()), 2*len(G.edges())/N),
                 color='w', fontsize=18)
-    plt.ylabel('Giant component\nsize', color='w', fontsize=18)
+    plt.ylabel('Giant component\nsize (relative)', color='w', fontsize=18)
     plt.xlabel('<k>', color='w', fontsize=18)
     for axis in ['top','bottom','left','right']:
       ax.spines[axis].set_linewidth(2)
@@ -142,7 +161,7 @@ for iEdge in edgeList[:20]:
     ax.tick_params(axis='y', colors='white', width=2, which='major', labelsize=14)
     ax.tick_params(axis='y', colors='white', width=2, which='minor')
 
-    fFig = 'ERNet_%03d.png' % len(G.edges())
+    fFig = 'PRNet_%03d.png' % len(G.edges())
     plt.savefig(os.path.join(outDir,fFig), dpi=128, facecolor='black')
     #plt.show()
     plt.close()
@@ -156,7 +175,7 @@ for iEdges in range(20,300,edgeStep):
     plt.figure(figsize=[8,4], facecolor='k')
 
     # Left panel, network
-    plt.subplot(121, position=[0.0,0.0,0.5,1.0])
+    plt.subplot(121, position=posLeft)
     # drawing nodes and edges
     nx.draw_networkx_edges(G, pos, edge_color='skyblue', width=2.0)
     nx.draw_networkx_nodes(G, pos, node_size=30, node_color = 'salmon',
@@ -183,20 +202,22 @@ for iEdges in range(20,300,edgeStep):
     # right panel: giant component size
     plotX.append(2*len(G.edges())/N)
     plotY.append(len(GC.nodes())/N)
-    plt.subplot(122, position=[0.65,0.15,0.325,0.6])
-    if iEdges < 100:
+    plt.subplot(122, position=posRight)
+    if iEdges < tc:
         plt.plot(plotX, plotY,'-', linewidth=3.0, color='skyblue')
     else:
-        plt.plot(plotX[:(plotX.index(1)+1)], plotY[:(plotX.index(1)+1)],
+        x = np.array(plotX)
+        y = np.array(plotY)
+        plt.plot(x[x<(tc/N)], y[x<(tc/N)],
                 '-', linewidth=3.0, color='skyblue')
-        plt.plot(plotX[plotX.index(1):], plotY[plotX.index(1):],
+        plt.plot(x[x>=(tc/N)], y[x>=(tc/N)],
                 '-', linewidth=3.0, color='crimson')
     ax = plt.gca()
     plt.xlim(xLimER)
     plt.ylim(yLimER)
     plt.title('E=%d\n<k>=%4.2f\n' % (len(G.edges()), 2*len(G.edges())/N),
                 color='w', fontsize=18)
-    plt.ylabel('Giant component\nsize', color='w', fontsize=18)
+    plt.ylabel('Giant component\nsize (relative)', color='w', fontsize=18)
     plt.xlabel('<k>', color='w', fontsize=18)
     for axis in ['top','bottom','left','right']:
       ax.spines[axis].set_linewidth(2)
@@ -207,7 +228,7 @@ for iEdges in range(20,300,edgeStep):
     ax.tick_params(axis='y', colors='white', width=2, which='major', labelsize=14)
     ax.tick_params(axis='y', colors='white', width=2, which='minor')
 
-    fFig = 'ERNet_%03d.png' % len(G.edges())
+    fFig = 'PRNet_%03d.png' % len(G.edges())
     plt.savefig(os.path.join(outDir,fFig), dpi=128, facecolor='black')
     #plt.show()
     plt.close()
