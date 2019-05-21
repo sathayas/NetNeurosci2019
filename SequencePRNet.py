@@ -203,15 +203,7 @@ for iEdges in range(20,300,edgeStep):
     plotX.append(2*len(G.edges())/N)
     plotY.append(len(GC.nodes())/N)
     plt.subplot(122, position=posRight)
-    if iEdges < tc:
-        plt.plot(plotX, plotY,'-', linewidth=3.0, color='skyblue')
-    else:
-        x = np.array(plotX)
-        y = np.array(plotY)
-        plt.plot(x[x<(tc/N)], y[x<(tc/N)],
-                '-', linewidth=3.0, color='skyblue')
-        plt.plot(x[x>=(tc/N)], y[x>=(tc/N)],
-                '-', linewidth=3.0, color='crimson')
+    plt.plot(plotX, plotY,'-', linewidth=3.0, color='skyblue')
     ax = plt.gca()
     plt.xlim(xLimER)
     plt.ylim(yLimER)
