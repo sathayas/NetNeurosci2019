@@ -12,7 +12,7 @@ E = 300  # Number of edges
 xLimER = [0, 3.0]
 yLimER = [-0.01, 1.01]
 outDir = 'PR_Percolation_PNG'
-edgeStep = 5
+edgeStep = 3
 nFrameSlomo = 20
 nFrameDup = 2
 posLeft = [0.0,0.0,0.5,1.0]
@@ -294,9 +294,7 @@ for iEdges in range(20,300,edgeStep):
     ax.tick_params(axis='y', colors='white', width=2, which='major', labelsize=14)
     ax.tick_params(axis='y', colors='white', width=2, which='minor')
 
-    fFig_base = 'PRNet_%03d' % len(G.edges())
-    for iFrame in range(nFrameDup):
-        fFig = fFig_base + '-%02d' % (iFrame+1) + '.png'
-        plt.savefig(os.path.join(outDir,fFig), dpi=128, facecolor='black')
+    fFig = 'PRNet_%03d.png' % len(G.edges())
+    plt.savefig(os.path.join(outDir,fFig), dpi=128, facecolor='black')
     #plt.show()
     plt.close()
