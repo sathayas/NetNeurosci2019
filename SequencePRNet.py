@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 N = 200  # Number of nodes
 E = 300  # Number of edges
 xLimER = [0, 3.0]
-yLimER = [0, 1.0]
+yLimER = [-0.01, 1.01]
 outDir = 'PR_Percolation_PNG'
 edgeStep = 5
 nFrameSlomo = 20
