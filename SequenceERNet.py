@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 N = 200  # Number of nodes
 E = 300  # Number of edges
 xLimER = [0, 3.0]
-yLimER = [0, 1.0]
+yLimER = [-0.01, 1.01]
 outDir = 'ER_Percolation_PNG'
 edgeStep = 5
 
@@ -70,7 +70,7 @@ plt.xlim(xLimER)
 plt.ylim(yLimER)
 plt.title('E=%d\n<k>=%4.2f\n' % (len(G.edges()), 2*len(G.edges())/N),
             color='w', fontsize=18)
-plt.ylabel('Giant component\nsize', color='w', fontsize=18)
+plt.ylabel('Giant component\nsize (relative)', color='w', fontsize=18)
 plt.xlabel('<k>', color='w', fontsize=18)
 for axis in ['top','bottom','left','right']:
   ax.spines[axis].set_linewidth(2)
@@ -131,7 +131,7 @@ for iEdge in edgeList[:20]:
     plt.ylim(yLimER)
     plt.title('E=%d\n<k>=%4.2f\n' % (len(G.edges()), 2*len(G.edges())/N),
                 color='w', fontsize=18)
-    plt.ylabel('Giant component\nsize', color='w', fontsize=18)
+    plt.ylabel('Giant component\nsize (relative)', color='w', fontsize=18)
     plt.xlabel('<k>', color='w', fontsize=18)
     for axis in ['top','bottom','left','right']:
       ax.spines[axis].set_linewidth(2)
@@ -196,7 +196,7 @@ for iEdges in range(20,300,edgeStep):
     plt.ylim(yLimER)
     plt.title('E=%d\n<k>=%4.2f\n' % (len(G.edges()), 2*len(G.edges())/N),
                 color='w', fontsize=18)
-    plt.ylabel('Giant component\nsize', color='w', fontsize=18)
+    plt.ylabel('Giant component\nsize (relative)', color='w', fontsize=18)
     plt.xlabel('<k>', color='w', fontsize=18)
     for axis in ['top','bottom','left','right']:
       ax.spines[axis].set_linewidth(2)
