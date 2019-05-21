@@ -77,7 +77,7 @@ G.add_nodes_from(list(range(1,N+1)))  # adding nodes
 edgeList = []   # list of edges added
 rejList = []    # list of rejected edges
 GCSize = []  # giant compnent size
-
+avgS = []
 # the loop to add random edges
 for iEdge in range(E):
     tmpE, tmpR = connect_nodes(G)
@@ -85,7 +85,24 @@ for iEdge in range(E):
     rejList.append(tmpR)
     cc = sorted(nx.connected_component_subgraphs(G), key = len, reverse=True)
     GCSize.append(len(cc[0]))
+    if len(cc)>1:
+        s = np.array([len(c) for c in cc[1:]])
+        avgS.append(np.mean(s**2)/np.mean(s))
+    else:
+        avgS.append(0)
 
+
+# Plotting the giant component size
+plt.plot(GCSize)
+plt.show()
+
+# plotting the average cluster size
+plt.plot(avgS)
+plt.show()
+
+
+# phase transition at tc
+tc = np.argmax(avgS)
 
 
 # drawing the graph, just for fun, and to get the coordinates for nodes
@@ -95,11 +112,6 @@ pos = nx.spring_layout(G, k=8.5, iterations=1000, pos=posInit) # positions for a
 nx.draw_networkx_nodes(G, pos, node_size=100)
 nx.draw_networkx_edges(G, pos, edge_color='lightblue')
 plt.axis('off')
-plt.show()
-
-
-# Plotting the giant component size
-plt.plot(GCSize)
 plt.show()
 
 
@@ -127,3 +139,21 @@ for iNode, iPos in nodeList:
     g.write('%4d' % iNode)
     g.write('  %10.6f  %10.6f\n' % (iPos[0], iPos[1]))
 g.close()
+
+
+
+# drawing the graph, just for fun, and to get the coordinates for nodes
+H = nx.Graph()
+H.add_nodes_from(G.nodes())
+# adding edges just before the phase transition
+H.add_edges_from(edgeList[:175])
+
+
+# drawing the graph, just for fun, and to get the coordinates for nodes
+plt.figure(figsize=[5,5])
+posInit = nx.kamada_kawai_layout(H)
+pos = nx.spring_layout(H, k=2, iterations=1000, pos=posInit) # positions for all nodes
+nx.draw_networkx_nodes(H, pos, node_size=100)
+nx.draw_networkx_edges(H, pos, edge_color='lightblue')
+plt.axis('off')
+plt.show()
