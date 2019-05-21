@@ -111,7 +111,81 @@ plt.close()
 #
 plotX = [0]
 plotY = [0]
-for iEdge in edgeList[:nFrameSlomo]:
+for i,iEdge in enumerate(edgeList[:nFrameSlomo]):
+    #
+    # Potential edges are shown
+    #
+    plt.figure(figsize=[8,4], facecolor='k')
+
+    # Left panel, network
+    plt.subplot(121, position=posLeft)
+    # drawing nodes and existing edges
+    nx.draw_networkx_edges(G, pos, edge_color='skyblue', width=2.0)
+    nx.draw_networkx_nodes(G, pos, node_size=30, node_color = 'salmon',
+                            linewidth=None)
+    # drawing nodes and edges of the giant component
+    CC = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)
+    GC = CC[0]
+    nx.draw_networkx_nodes(G, pos, nodelist = GC.nodes(),
+                            node_size=100, node_color = 'orangered',
+                            linewidth=None)
+    # drawing all the other components
+    if len(CC)>0:
+        for iCC in CC[1:]:
+            if len(iCC)>1:
+                nx.draw_networkx_nodes(G, pos, nodelist = iCC.nodes(),
+                                        node_size=30, node_color = 'crimson',
+                                        linewidth=None)
+    # drawing the new edge
+    nx.draw_networkx_edges(G, pos, edgelist = [iEdge],
+                            edge_color='lightskyblue', width=2.0,
+                            style='dotted', alpha=0.7)
+    nx.draw_networkx_nodes(G, pos, nodelist = iEdge,
+                            node_size=30, node_color = 'deeppink',
+                            linewidth=None)
+    # drawing the rejected edge
+    nx.draw_networkx_edges(G, pos, edgelist = [rejList[i]],
+                            edge_color='lightskyblue', width=2.0,
+                            style='dotted', alpha=0.7)
+    nx.draw_networkx_nodes(G, pos, nodelist = rejList[i],
+                            node_size=30, node_color = 'deeppink',
+                            linewidth=None)
+    plt.xlim([-1.05, 1.05])
+    plt.ylim([-1.05, 1.05])
+    plt.axis('off')
+
+
+    # right panel: giant component size
+    plt.subplot(122, position=posRight)
+    plt.plot(plotX, plotY,'-', linewidth=3.0, color='skyblue')
+    ax = plt.gca()
+    plt.xlim(xLimER)
+    plt.ylim(yLimER)
+    plt.title('E=%d\n<k>=%4.2f\n' % (len(G.edges()), 2*len(G.edges())/N),
+                color='w', fontsize=18)
+    plt.ylabel('Giant component\nsize (relative)', color='w', fontsize=18)
+    plt.xlabel('<k>', color='w', fontsize=18)
+    for axis in ['top','bottom','left','right']:
+      ax.spines[axis].set_linewidth(2)
+      ax.spines[axis].set_color('white')
+    ax.set_facecolor('k')
+    ax.tick_params(axis='x', colors='white', width=2, which='major', labelsize=14)
+    ax.tick_params(axis='x', colors='white', width=2, which='minor')
+    ax.tick_params(axis='y', colors='white', width=2, which='major', labelsize=14)
+    ax.tick_params(axis='y', colors='white', width=2, which='minor')
+
+    fFig_base = 'PRNet_%03d-01' % (len(G.edges())+1)
+    for iFrame in range(nFrameDup):
+        fFig = fFig_base + '-%02d' % (iFrame+1) + '.png'
+        plt.savefig(os.path.join(outDir,fFig), dpi=128, facecolor='black')
+    #plt.show()
+    plt.close()
+
+
+
+    #
+    # Edge added
+    #
     G.add_edge(iEdge[0], iEdge[1])
     plt.figure(figsize=[8,4], facecolor='k')
 
@@ -161,7 +235,7 @@ for iEdge in edgeList[:nFrameSlomo]:
     ax.tick_params(axis='y', colors='white', width=2, which='major', labelsize=14)
     ax.tick_params(axis='y', colors='white', width=2, which='minor')
 
-    fFig = 'PRNet_%03d.png' % len(G.edges())
+    fFig = 'PRNet_%03d-02.png' % len(G.edges())
     plt.savefig(os.path.join(outDir,fFig), dpi=128, facecolor='black')
     #plt.show()
     plt.close()
