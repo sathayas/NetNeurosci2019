@@ -294,7 +294,9 @@ for iEdges in range(20,300,edgeStep):
     ax.tick_params(axis='y', colors='white', width=2, which='major', labelsize=14)
     ax.tick_params(axis='y', colors='white', width=2, which='minor')
 
-    fFig = 'PRNet_%03d.png' % len(G.edges())
-    plt.savefig(os.path.join(outDir,fFig), dpi=128, facecolor='black')
+    fFig_base = 'PRNet_%03d' % len(G.edges())
+    for iFrame in range(nFrameDup):
+        fFig = fFig_base + '-%02d' % (iFrame+1) + '.png'
+        plt.savefig(os.path.join(outDir,fFig), dpi=128, facecolor='black')
     #plt.show()
     plt.close()
