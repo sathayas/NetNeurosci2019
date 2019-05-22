@@ -13,12 +13,12 @@ def net_thR(R, nodes, thR):
     triubR = bR[ind_triubR]
     ind_edgeR = [ind_triubR[0][triubR>0], ind_triubR[1][triubR>0]]
     for iEdge in range(len(ind_edgeR[0])):
-        G.add_edge(nodes[ind_edge[0][iEdge]], nodes[ind_edge[1][iEdge]])
+        G.add_edge(nodes[ind_edgeR[0][iEdge]], nodes[ind_edgeR[1][iEdge]])
     return G
 
 ###### parameters
-posTopLeft = [0.05, 0.625, 0.2, 0.2]
-posTopRight = [0.55, 0.625, 0.2, 0.2]
+posTopLeft = [0.1, 0.55, 0.3, 0.3]
+posTopRight = [0.5, 0.5, 0.425, 0.5]
 figLeft = 0.085
 figRight = 0.95
 figTop = 0.9
@@ -35,19 +35,24 @@ nodes = infile['nodes']   # roi indices
 xyz = infile['xyz']   # roi center cooridates in 3D
 
 
+# dictionary of xy-coordinates
+pos = {}
+for i in range(len(nodes)):
+    pos[nodes[i]] = xyz[i,:2]
+
+
 
 ###### Calculating the correlation matrix
 R = np.corrcoef(ts, rowvar=False)
+for iRow in range(R.shape[0]):
+    R[iRow, iRow] = 0
 
 
-plt.figure(figsize=[6,6], facecolor='k')
+plt.figure(figsize=[4,4], facecolor='k')
 
 #
-# Top left pane, correlation matrix
+# correlation matrix
 #
-plt.subplot(221, position=posTopLeft)
-
-# showing the correlation coefficient
 plt.imshow(R)
 ax = plt.gca()
 plt.title('Correlation matrix\n', color='w', fontsize=18)
@@ -67,23 +72,25 @@ cb = plt.colorbar(shrink=0.66)
 cb.ax.yaxis.set_tick_params(color='w', labelsize=10)
 cb.outline.set_edgecolor('w')
 plt.setp(plt.getp(cb.ax.axes, 'yticklabels'), color='w')
+plt.show()
 
 
 
-
+# Network at this threshold
+G = net_thR(R, nodes, thR)
 
 #
-# Top right pane, thresholded matrix
+# Top left pane, thresholded matrix
 #
-plt.subplot(222, position=posTopRight)
+plt.figure(figsize=[6,6], facecolor='k')
+plt.subplot(221, position=posTopLeft)
 
 # showing the correlation coefficient
-for iRow in range(R.shape[0]):
-    R[iRow, iRow] = 0
 bR = (R>thR).astype(int)
 plt.imshow(bR, cmap='gray')
 ax = plt.gca()
-plt.title('Threshold: R=%5.3f' % thR, color='w', fontsize=18)
+plt.title('Threshold: R>%5.3f\nE=%4d, <k>=%5.3f\n' % (thR, len(G.edges()), len(G.edges())/len(G.nodes())),
+           color='w', fontsize=18)
 # axis business
 for axis in ['top','bottom','left','right']:
   ax.spines[axis].set_linewidth(2)
@@ -96,9 +103,17 @@ ax.tick_params(axis='y', colors='white', width=1, which='minor')
 
 
 
+#
+# Top right pane, network
+#
+plt.subplot(222, position=posTopRight)
+nx.draw_networkx_nodes(G, pos, node_size=30, node_color = 'salmon',
+                        linewidth=None)
+nx.draw_networkx_edges(G, pos, edge_color='skyblue', width=1.0)
+plt.axis('off')
 
 
-plt.subplots_adjust(left=figLeft, right=figRight,
-                    bottom=figBottom, top=figTop,
-                    wspace=figW, hspace=figH)
+#plt.subplots_adjust(left=figLeft, right=figRight,
+#                    bottom=figBottom, top=figTop,
+#                    wspace=figW, hspace=figH)
 plt.show()
