@@ -27,13 +27,14 @@ figTop = 0.9
 figBottom = 0.075
 figW = 0.3
 figH = 0.3
-thR = np.arange(0.7,0.5,-0.05)
-xLimRGC = [0.4, 0.71]
+thR = np.arange(0.62,0.45,-0.05)   # Start 0.90, end 0.475
+xLimRGC = [0.4, 0.91]
 yLimRGC = [-0.01, 1.01]
 xLimKGC = [0.0, 5.0]
 yLimKGC = [-0.01, 1.01]
 xLimNet = [7.45, 38.25]
 yLimNet = [8.0, 48.25]
+outDir = 'LowerThresh_PNG'
 
 
 ###### Loadin the data saved in .npz file
@@ -91,6 +92,7 @@ plotR = []
 plotK = []
 plotGC_R = []
 plotGC_K = []
+indFrame = 1
 for iR in thR:
     # Network at this threshold
     G = net_thR(R, nodes, iR)
@@ -197,5 +199,7 @@ for iR in thR:
     #plt.subplots_adjust(left=figLeft, right=figRight,
     #                    bottom=figBottom, top=figTop,
     #                    wspace=figW, hspace=figH)
-    plt.show()
+    fFig = 'ThreshR_%03d.png' % indFrame
+    plt.savefig(os.path.join(outDir,fFig), dpi=128, facecolor='black')
+    #plt.show()
     plt.close()
