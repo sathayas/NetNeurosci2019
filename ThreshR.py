@@ -27,8 +27,8 @@ figTop = 0.9
 figBottom = 0.075
 figW = 0.3
 figH = 0.3
-thR = np.arange(0.62,0.45,-0.05)   # Start 0.90, end 0.475
-xLimRGC = [0.4, 0.91]
+thR = np.arange(0.90,0.470,-0.005)   # Start 0.90, end 0.475
+xLimRGC = [0.469, 0.91]
 yLimRGC = [-0.01, 1.01]
 xLimKGC = [0.0, 5.0]
 yLimKGC = [-0.01, 1.01]
@@ -82,8 +82,9 @@ cb = plt.colorbar(shrink=0.66)
 cb.ax.yaxis.set_tick_params(color='w', labelsize=10)
 cb.outline.set_edgecolor('w')
 plt.setp(plt.getp(cb.ax.axes, 'yticklabels'), color='w')
-plt.show()
-
+plt.savefig('CorrMat_sub16112.png', dpi=128, facecolor='black')
+#plt.show()
+plt.close()
 
 #
 # For loop for the threshold
