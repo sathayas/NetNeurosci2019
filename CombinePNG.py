@@ -1,8 +1,8 @@
 import cv2
 import os
 
-image_folder = 'PR_Percolation_PNG'
-video_name = 'PR_Percolation.mp4'
+image_folder = 'LowerThresh_PNG'
+video_name = 'LowerThresh.mp4'
 
 images = [img for img in os.listdir(image_folder) if img.endswith(".png")]
 images = sorted(images)
