@@ -20,6 +20,7 @@ def net_thR(R, nodes, thR):
 posTopLeft = [0.1, 0.5, 0.3, 0.3]
 posTopRight = [0.5, 0.45, 0.4, 0.45]
 posBotLeft = [0.175, 0.1, 0.35, 0.3]
+posBotRight = [0.6, 0.1, 0.35, 0.3]
 figLeft = 0.085
 figRight = 0.95
 figTop = 0.9
@@ -29,6 +30,8 @@ figH = 0.3
 thR = np.arange(0.7,0.5,-0.05)
 xLimRGC = [0.4, 0.71]
 yLimRGC = [-0.01, 1.01]
+xLimKGC = [0.0, 5.0]
+yLimKGC = [-0.01, 1.01]
 
 ###### Loadin the data saved in .npz file
 f_TS = 'Oxford_sub16112_rt2_K200.npz'
@@ -92,9 +95,11 @@ for iR in thR:
     #
     # Top left pane, thresholded matrix
     #
+    meanK = len(G.edges())/len(G.nodes())
+    E = len(G.edges())
     fig = plt.figure(figsize=[6,6], facecolor='k')
-    fig.suptitle('Threshold: R>%5.3f, E=%4d, <k>=%5.3f' % (iR, len(G.edges()), len(G.edges())/len(G.nodes())),
-               color='w', fontsize=18)
+    fig.suptitle('Threshold: R>%5.3f, E=%4d, <k>=%5.3f' % (iR, E, meanK),
+                 color='w', fontsize=18)
 
     plt.subplot(221, position=posTopLeft)
 
@@ -105,7 +110,7 @@ for iR in thR:
     plt.title('Thresholded\ncorrelation matrix', color='w', fontsize=12)
     # axis business
     for axis in ['top','bottom','left','right']:
-      ax.spines[axis].set_linewidth(2)
+      ax.spines[axis].set_linewidth(1)
       ax.spines[axis].set_color('white')
     ax.set_facecolor('k')
     ax.tick_params(axis='x', colors='white', width=1, which='major', labelsize=12)
@@ -119,7 +124,7 @@ for iR in thR:
     # Top right pane, network
     #
     plt.subplot(222, position=posTopRight)
-    nx.draw_networkx_nodes(G, pos, node_size=15, node_color = 'salmon',
+    nx.draw_networkx_nodes(G, pos, node_size=10, node_color = 'peachpuff',
                             linewidth=None)
     nx.draw_networkx_edges(G, pos, edge_color='skyblue', width=1.0)
 
@@ -127,14 +132,14 @@ for iR in thR:
     CC = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)
     GC = CC[0]
     nx.draw_networkx_nodes(G, pos, nodelist = GC.nodes(),
-                            node_size=30, node_color = 'orangered',
+                            node_size=40, node_color = 'orangered',
                             linewidth=None)
     # drawing all the other components
     if len(CC)>0:
         for iCC in CC[1:]:
             if len(iCC)>1:
                 nx.draw_networkx_nodes(G, pos, nodelist = iCC.nodes(),
-                                        node_size=15, node_color = 'crimson',
+                                        node_size=10, node_color = 'crimson',
                                         linewidth=None)
     plt.axis('off')
     # text for R
@@ -142,7 +147,7 @@ for iR in thR:
 
 
 
-    # right panel: giant component size
+    # bottom left panel: giant component size vs R
     plotR.append(iR)
     plotGC_R.append(len(GC.nodes())/N)
     plt.subplot(223, position=posBotLeft)
@@ -150,16 +155,37 @@ for iR in thR:
     ax = plt.gca()
     plt.xlim(xLimRGC)
     plt.ylim(yLimRGC)
-    plt.ylabel('Giant component\nsize (relative)', color='w', fontsize=14)
-    plt.xlabel('R', color='w', fontsize=14)
+    plt.title('GC vs R', color='w', fontsize=12)
+    plt.ylabel('Giant component\nsize (relative)', color='w', fontsize=12)
+    plt.xlabel('R', color='w', fontsize=12)
     for axis in ['top','bottom','left','right']:
-      ax.spines[axis].set_linewidth(2)
+      ax.spines[axis].set_linewidth(1)
       ax.spines[axis].set_color('white')
     ax.set_facecolor('k')
-    ax.tick_params(axis='x', colors='white', width=2, which='major', labelsize=11)
-    ax.tick_params(axis='x', colors='white', width=2, which='minor')
-    ax.tick_params(axis='y', colors='white', width=2, which='major', labelsize=11)
-    ax.tick_params(axis='y', colors='white', width=2, which='minor')
+    ax.tick_params(axis='x', colors='white', width=1, which='major', labelsize=11)
+    ax.tick_params(axis='x', colors='white', width=1, which='minor')
+    ax.tick_params(axis='y', colors='white', width=1, which='major', labelsize=11)
+    ax.tick_params(axis='y', colors='white', width=1, which='minor')
+
+
+    # bottom right panel: giant component size vs <k>
+    plotK.append(meanK)
+    plotGC_K.append(len(GC.nodes())/N)
+    plt.subplot(223, position=posBotRight)
+    plt.plot(plotK, plotGC_K,'-', linewidth=3.0, color='skyblue')
+    ax = plt.gca()
+    plt.xlim(xLimKGC)
+    plt.ylim(yLimKGC)
+    plt.title('GC vs <k>', color='w', fontsize=12)
+    plt.xlabel('<k>', color='w', fontsize=12)
+    for axis in ['top','bottom','left','right']:
+      ax.spines[axis].set_linewidth(1)
+      ax.spines[axis].set_color('white')
+    ax.set_facecolor('k')
+    ax.tick_params(axis='x', colors='white', width=1, which='major', labelsize=11)
+    ax.tick_params(axis='x', colors='white', width=1, which='minor')
+    ax.tick_params(axis='y', colors='white', width=1, which='major', labelleft='off')
+    ax.tick_params(axis='y', colors='white', width=1, which='minor')
 
 
     #plt.subplots_adjust(left=figLeft, right=figRight,
