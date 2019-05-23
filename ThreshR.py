@@ -18,9 +18,9 @@ def net_thR(R, nodes, thR):
 
 ###### parameters
 posTopLeft = [0.1, 0.5, 0.3, 0.3]
-posTopRight = [0.5, 0.45, 0.4, 0.45]
-posBotLeft = [0.175, 0.1, 0.35, 0.3]
-posBotRight = [0.6, 0.1, 0.35, 0.3]
+posTopRight = [0.5, 0.425, 0.4, 0.45]
+posBotLeft = [0.16, 0.1, 0.38, 0.3]
+posBotRight = [0.58, 0.1, 0.38, 0.3]
 figLeft = 0.085
 figRight = 0.95
 figTop = 0.9
@@ -32,6 +32,7 @@ xLimRGC = [0.4, 0.71]
 yLimRGC = [-0.01, 1.01]
 xLimKGC = [0.0, 5.0]
 yLimKGC = [-0.01, 1.01]
+
 
 ###### Loadin the data saved in .npz file
 f_TS = 'Oxford_sub16112_rt2_K200.npz'
@@ -143,6 +144,7 @@ for iR in thR:
                                         linewidth=None)
     plt.axis('off')
     # text for R
+    plt.title('Resulting network', color='w', fontsize=12)
     plt.text(38,10,'R', fontsize=12, color='w')
 
 
