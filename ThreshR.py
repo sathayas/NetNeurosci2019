@@ -104,7 +104,7 @@ for iR in thR:
     E = len(G.edges())
     fig = plt.figure(figsize=[6,6], facecolor='k')
     fig.suptitle('Threshold: R>%5.3f, E=%4d, <k>=%5.3f' % (iR, E, meanK),
-                 color='w', fontsize=18)
+                 y=0.97, color='w', fontsize=18)
 
     plt.subplot(221, position=posTopLeft)
 
@@ -201,5 +201,6 @@ for iR in thR:
     #                    wspace=figW, hspace=figH)
     fFig = 'ThreshR_%03d.png' % indFrame
     plt.savefig(os.path.join(outDir,fFig), dpi=128, facecolor='black')
+    indFrame += 1
     #plt.show()
     plt.close()
