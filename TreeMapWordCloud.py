@@ -11,14 +11,12 @@ import nibabel as nib
 
 # Loading AAL atlas info
 # AAL template image, re-sliced to the dimension of functional
-fAALImg = '/home/satoru/Projects/Connectome/Templates/aal_MNI_V4_r.nii.gz'
-#fAALImg = 'aal_MNI_V4_r.nii.gz'
+fAALImg = 'aal_MNI_V4_r.nii.gz'
 imgAAL = nib.load(fAALImg)
 X_AAL = imgAAL.get_data()
 
 # AAL table of brain areas
-fAALTable = '/home/satoru/Projects/Connectome/Templates/aal_MNI_V4.txt'
-#fAALTable = 'aal_MNI_V4.txt'
+fAALTable = 'aal_MNI_V4.txt'
 AALTable = pd.read_table(fAALTable, skiprows = [0], header=None)
 AALTable.columns = ['ROI', 'ROIName']
 
@@ -119,7 +117,7 @@ plt.ylim([0, height])
 plt.axis('off')
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 plt.savefig('TreeMap_RankTh_d10.png', dpi=128)
-#plt.show()
+plt.show()
 plt.close(fig)
 
 
@@ -215,5 +213,5 @@ plt.ylim([0, height])
 plt.axis('off')
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 plt.savefig('TreeMap_HardThE_EQd10.png', dpi=600)
-#plt.show()
+plt.show()
 plt.close(fig)
