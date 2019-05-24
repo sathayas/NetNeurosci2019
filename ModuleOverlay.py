@@ -159,7 +159,7 @@ plt.gca().invert_yaxis()
 plt.axis('off')
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 fOutRankTh = 'ModuleOverlay_RankTh_' + disp_plane + '.png'
-plt.savefig(fOutRankTh, dpi=600)
+plt.savefig(fOutRankTh, dpi=128)
 #plt.show()
 
 
@@ -183,5 +183,5 @@ plt.gca().invert_yaxis()
 plt.axis('off')
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 fOutHardThE = 'ModuleOverlay_HardThE_' + disp_plane + '.png'
-plt.savefig(fOutHardThE, dpi=600)
+plt.savefig(fOutHardThE, dpi=128)
 #plt.show()
