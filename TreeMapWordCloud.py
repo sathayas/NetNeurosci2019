@@ -9,12 +9,6 @@ from wordcloud import WordCloud
 import nibabel as nib
 
 
-# directory info
-baseMod_RankTh = '/home/satoru/Projects/Connectome/Data/1000FCP/Oxford/Processed/sub47141/Modules/Network_RankTh'
-#baseMod_RankTh = '.'
-baseMod_HardThE = '/home/satoru/Projects/Connectome/Data/1000FCP/Oxford/Processed/sub47141/Modules/Network_HardThE'
-#baseMod_HardThE = '.'
-
 # Loading AAL atlas info
 # AAL template image, re-sliced to the dimension of functional
 fAALImg = '/home/satoru/Projects/Connectome/Templates/aal_MNI_V4_r.nii.gz'
@@ -47,14 +41,10 @@ d = 10
 
 
 # loading the module info file and image
-fName_RankTh = 'Modules_d' + str(d) + '.npz'
-fNameImg_RankTh = 'Modules_d' + str(d) + '.nii.gz'
-fModInfoRankTh = os.path.join(baseMod_RankTh, fName_RankTh)
-fModImgRankTh = os.path.join(baseMod_RankTh, fNameImg_RankTh)
-fName_HardThE = 'Modules_EQd' + str(d) + '.npz'
-fNameImg_HardThE = 'Modules_EQd' + str(d) + '.nii.gz'
-fModInfoHardThE = os.path.join(baseMod_HardThE, fName_HardThE)
-fModImgHardThE = os.path.join(baseMod_HardThE, fNameImg_HardThE)
+fModInfoRankTh = 'sub16112_RankTh_Modules_d10.npz'
+fModImgRankTh = 'sub16112_RankTh_Modules_d10.nii.gz'
+fModInfoHardThE = 'sub16112_HardThE_Modules_d10.npz'
+fModImgHardThE = 'sub16112_HardThE_Modules_d10.nii.gz'
 
 # loading the module info file
 inFileRankTh = np.load(fModInfoRankTh)
@@ -128,7 +118,7 @@ plt.xlim([0, width])
 plt.ylim([0, height])
 plt.axis('off')
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
-plt.savefig('TreeMap_RankTh_d10.png', dpi=600)
+plt.savefig('TreeMap_RankTh_d10.png', dpi=128)
 #plt.show()
 plt.close(fig)
 
@@ -202,7 +192,7 @@ ax1.add_patch(
 for iMod in range(len(rectsHardThE)):
     ax1.add_patch(
         patches.Rectangle(
-            (rectsHardThE[iMod]['x']+offsetWidth, 
+            (rectsHardThE[iMod]['x']+offsetWidth,
              rectsHardThE[iMod]['y']+offsetHeight),   # (x,y)
             rectsHardThE[iMod]['dx'],          # width
             rectsHardThE[iMod]['dy'],          # height
@@ -214,9 +204,9 @@ for iMod in range(len(rectsHardThE)):
     y = np.floor(rectsHardThE[iMod]['y']).astype(int)
     dx = np.floor(rectsHardThE[iMod]['dx']).astype(int)
     dy = np.floor(rectsHardThE[iMod]['dy']).astype(int)
-    extent  = [x+offsetWidth, 
-               x+dx+offsetWidth, 
-               y+offsetHeight, 
+    extent  = [x+offsetWidth,
+               x+dx+offsetWidth,
+               y+offsetHeight,
                y+dy+offsetHeight]
     ax1.imshow(wcList[iMod],extent=extent, interpolation='bilinear')
 
@@ -227,5 +217,3 @@ plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 plt.savefig('TreeMap_HardThE_EQd10.png', dpi=600)
 #plt.show()
 plt.close(fig)
-
-
