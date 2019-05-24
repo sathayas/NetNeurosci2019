@@ -9,84 +9,55 @@ import os
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
+
+
+# parameters
+posLeft = [0.1, 0.15, 0.3, 0.7]
+xLim = [-0.01, 4.3]
+yLim = [-0.01, 1.01]
 
 
 
-# setting up the figure
-fig = plt.gcf()
-fig.set_size_inches(4.75,5)
-#OutFig = '/home/shayasak/Projects/Percolation/Writing/PhysA/Figures/GCPlotZoom_RankTh.png'
-OutFig = '/home/shayasak/Projects/Percolation/Writing/PhysA/Figures/GCPlotZoom_RankTh.eps'
-
+### Initialization of figure
+fig = plt.figure(figsize=[10,4], facecolor='k')
 
 
 #
 # S&P 500 data first
 #
 
-# file names
-fRankThNet_ascend = '/home/shayasak/Projects/Percolation/RealNetwork/SP500/Analysis/RankThNet_ascend.npz'
-fRankThNet_descend = '/home/shayasak/Projects/Percolation/RealNetwork/SP500/Analysis/RankThNet_descend.npz'
+# file business
+fRankThNet = 'RankThNet_SP500.npz'
 
 # loading the file from the previously run analysis
-infile = np.load(fRankThNet_ascend)
-d = infile['d']
-NNodes = infile['NNodes']
-GCSize_ascend = infile['GCSize']
-dRecord = infile['dRecord']
-
-infile2 = np.load(fRankThNet_descend)
-GCSize_descend = infile2['GCSize']
-
-# figuring out the beginning and end of different d values
-dInd = []
-for iTop in range(d):
-    tmpInd = np.nonzero(np.array(dRecord)==(iTop+1))[0]
-    tmpLim = [tmpInd[0],tmpInd[-1]]
-    dInd.append(tmpLim)
+infile = np.load(fRankThNet)
+nNodes = infile['NNodes']  # Number of nodes
+GCSize = infile['GCSize']  # Giant component size
+nEdges = np.arange(1,len(GCSize)+1)   # Number of edges -- is a series
 
 # calculating variables for plotting
-rGCSize_ascend = np.array(GCSize_ascend) / float(NNodes)  # relative component size 
-rGCSize_descend = np.array(GCSize_descend) / float(NNodes)  # relative component size 
-t = np.arange(1.0,len(GCSize_ascend)+1.0) / float(NNodes)
-
-# labels
-dLabel = ['Largest\nelements', '2nd\nlargest\nelements', 
-          '3rd\nlargest\nelements', '4th\nlargest\nelements', 
-          '5th\nlargest\nelements']
+rGCSize= GCSize / nNodes # relative component size
+plotX = nEdges / nNodes # <k>
 
 # acual plotting
-plt.subplot(2, 2, 1)
-plt.plot(t[:dInd[2][1]],rGCSize_ascend[:dInd[2][1]], '-', color='r', linewidth=1)
-plt.plot(t[:dInd[2][1]],rGCSize_descend[:dInd[2][1]], '-', color='b', linewidth=1)
-plt.ylim([0,1.01])
-#plt.xlim([0,t.max()])
-plt.xlim([0,t[dInd[2][1]]])
+plt.subplot(131, position=posLeft)
+plt.plot(plotX, rGCSize, '-', color='skyblue', linewidth=2)
+plt.xlim(xLim)
+plt.ylim(yLim)
 ax = plt.gca()
-#for ibar in range(d):
-for ibar in range(3):
-    ax.text((t[dInd[ibar][1]]+t[dInd[ibar][0]])/2, 1.03, dLabel[ibar],
-            va='bottom', ha='center', multialignment='left',  
-            rotation=90, fontsize=7)
-    if (ibar % 2)==1:
-        plt.axvspan(t[dInd[ibar][0]], t[dInd[ibar][1]], 
-                    facecolor='0.85', edgecolor='none')
-plt.title('(a) Stock market ($n$=491)', fontsize=9, y=1.30)
-plt.xlabel('$t$', fontsize=8)
-plt.ylabel("$S_{max}/n$", fontsize=8)
-ax.xaxis.set_ticks(np.arange(0, 3, 0.5))
-ax.xaxis.set_tick_params(labelsize=7)
-ax.yaxis.set_tick_params(labelsize=7)
-#plt.subplots_adjust(bottom=0.08, left=0.08)
-plt.plot([0.870, 0.870], [0.0, 1.01], ':', lw=0.75, color='r')
-plt.plot([0.990, 0.990], [0.0, 1.01], ':', lw=0.75, color='b')
-legend = plt.legend(['Ascending', 'Descending', 
-                     r"$t_c = 0.870$" + "\n" + "(ascending)", 
-                     r"$t_c = 0.990$" + "\n" + "(descending)"], 
-                    fontsize=7, loc=4)
+plt.title('S&P 500 network\n(N=491)', fontsize=14, color='w')
+plt.ylabel('Giant component\nsize (relative)', color='w', fontsize=12)
+plt.xlabel('<k>', color='w', fontsize=12)
+for axis in ['top','bottom','left','right']:
+  ax.spines[axis].set_linewidth(1)
+  ax.spines[axis].set_color('white')
+ax.set_facecolor('k')
+ax.tick_params(axis='x', colors='white', width=1, which='major', labelsize=11)
+ax.tick_params(axis='x', colors='white', width=1, which='minor')
+ax.tick_params(axis='y', colors='white', width=1, which='major', labelsize=11)
+ax.tick_params(axis='y', colors='white', width=1, which='minor')
 
-
+plt.show()
 
 
 
@@ -117,13 +88,13 @@ for iTop in range(d):
     dInd.append(tmpLim)
 
 # calculating variables for plotting
-rGCSize_ascend = np.array(GCSize_ascend) / float(NNodes)  # relative component size 
-rGCSize_descend = np.array(GCSize_descend) / float(NNodes)  # relative component size 
+rGCSize_ascend = np.array(GCSize_ascend) / float(NNodes)  # relative component size
+rGCSize_descend = np.array(GCSize_descend) / float(NNodes)  # relative component size
 t = np.arange(1.0,len(GCSize_ascend)+1.0) / float(NNodes)
 
 # labels
-dLabel = ['Largest\nelements', '2nd\nlargest\nelements', 
-          '3rd\nlargest\nelements', '4th\nlargest\nelements', 
+dLabel = ['Largest\nelements', '2nd\nlargest\nelements',
+          '3rd\nlargest\nelements', '4th\nlargest\nelements',
           '5th\nlargest\nelements']
 
 # acual plotting
@@ -137,10 +108,10 @@ ax = plt.gca()
 #for ibar in range(d):
 for ibar in range(3):
     ax.text((t[dInd[ibar][1]]+t[dInd[ibar][0]])/2, 1.03, dLabel[ibar],
-            va='bottom', ha='center', multialignment='left',  
+            va='bottom', ha='center', multialignment='left',
             rotation=90, fontsize=7)
     if (ibar % 2)==1:
-        plt.axvspan(t[dInd[ibar][0]], t[dInd[ibar][1]], 
+        plt.axvspan(t[dInd[ibar][0]], t[dInd[ibar][1]],
                     facecolor='0.85', edgecolor='none')
 plt.title('(b) Airline network ($n$=1060)', fontsize=9, y=1.30)
 plt.xlabel('$t$', fontsize=8)
@@ -151,9 +122,9 @@ ax.yaxis.set_tick_params(labelsize=7)
 #plt.subplots_adjust(bottom=0.08, left=0.10, top=0.83, right=0.99, wspace=0.13)
 plt.plot([0.870, 0.870], [0.0, 1.01], ':', lw=0.75, color='r')
 plt.plot([0.990, 0.990], [0.0, 1.01], ':', lw=0.75, color='b')
-legend = plt.legend(['Ascending', 'Descending', 
-                     r"$t_c = 0.895$" + "\n" + "(ascending)", 
-                     r"$t_c = 0.974$" + "\n" + "(descending)"], 
+legend = plt.legend(['Ascending', 'Descending',
+                     r"$t_c = 0.895$" + "\n" + "(ascending)",
+                     r"$t_c = 0.974$" + "\n" + "(descending)"],
                     fontsize=7, loc=4)
 
 
@@ -189,13 +160,13 @@ for iTop in range(d):
     dInd.append(tmpLim)
 
 # calculating variables for plotting
-rGCSize_ascend = np.array(GCSize_ascend) / float(NNodes)  # relative component size 
-rGCSize_descend = np.array(GCSize_descend) / float(NNodes)  # relative component size 
+rGCSize_ascend = np.array(GCSize_ascend) / float(NNodes)  # relative component size
+rGCSize_descend = np.array(GCSize_descend) / float(NNodes)  # relative component size
 t = np.arange(1.0,len(GCSize_ascend)+1.0) / float(NNodes)
 
 # labels
-dLabel = ['Largest\nelements', '2nd\nlargest\nelements', 
-          '3rd\nlargest\nelements', '4th\nlargest\nelements', 
+dLabel = ['Largest\nelements', '2nd\nlargest\nelements',
+          '3rd\nlargest\nelements', '4th\nlargest\nelements',
           '5th\nlargest\nelements']
 
 # acual plotting
@@ -209,10 +180,10 @@ ax = plt.gca()
 #for ibar in range(d):
 for ibar in range(3):
     ax.text((t[dInd[ibar][1]]+t[dInd[ibar][0]])/2, 1.03, dLabel[ibar],
-            va='bottom', ha='center', multialignment='left',  
+            va='bottom', ha='center', multialignment='left',
             rotation=90, fontsize=7)
     if (ibar % 2)==1:
-        plt.axvspan(t[dInd[ibar][0]], t[dInd[ibar][1]], 
+        plt.axvspan(t[dInd[ibar][0]], t[dInd[ibar][1]],
                     facecolor='0.85', edgecolor='none')
 plt.title('(c) Gene co-expression ($n$=5168)', fontsize=9, y=1.30)
 plt.xlabel('$t$', fontsize=8)
@@ -223,9 +194,9 @@ ax.yaxis.set_tick_params(labelsize=7)
 #plt.subplots_adjust(bottom=0.07, left=0.10, top=0.85, right=0.99, wspace=0.13, hspace=0.75)
 plt.plot([0.870, 0.870], [0.0, 1.01], ':', lw=0.75, color='r')
 plt.plot([0.990, 0.990], [0.0, 1.01], ':', lw=0.75, color='b')
-legend = plt.legend(['Ascending', 'Descending', 
-                     r"$t_c = 0.865$" + "\n" + "(ascending)", 
-                     r"$t_c = 0.850$" + "\n" + "(descending)"], 
+legend = plt.legend(['Ascending', 'Descending',
+                     r"$t_c = 0.865$" + "\n" + "(ascending)",
+                     r"$t_c = 0.850$" + "\n" + "(descending)"],
                     fontsize=7, loc=4)
 
 
@@ -314,8 +285,8 @@ meandInd_t = np.array(meandInd) / NNodes.mean()
 t = np.arange(1.0,MaxE+1.0) / NNodes.mean()
 
 # labels
-dLabel = ['Largest\nelements', '2nd\nlargest\nelements', 
-          '3rd\nlargest\nelements', '4th\nlargest\nelements', 
+dLabel = ['Largest\nelements', '2nd\nlargest\nelements',
+          '3rd\nlargest\nelements', '4th\nlargest\nelements',
           '5th\nlargest\nelements']
 
 # acual plotting
@@ -329,10 +300,10 @@ ax = plt.gca()
 #for ibar in range(d):
 for ibar in range(3):
     ax.text((meandInd_t[ibar][0] + meandInd_t[ibar][1])/2, 1.03, dLabel[ibar],
-            va='bottom', ha='center', multialignment='left',  
+            va='bottom', ha='center', multialignment='left',
             rotation=90, fontsize=7)
     if (ibar % 2)==1:
-        plt.axvspan(meandInd_t[ibar][0], meandInd_t[ibar][1], 
+        plt.axvspan(meandInd_t[ibar][0], meandInd_t[ibar][1],
                     facecolor='0.85', edgecolor='none')
 plt.title('(d) Brain network ($\\langle n \\rangle$=18990)', fontsize=9, y=1.30)
 plt.xlabel('$t$', fontsize=8)
@@ -343,13 +314,10 @@ ax.yaxis.set_tick_params(labelsize=7)
 plt.subplots_adjust(bottom=0.07, left=0.10, top=0.85, right=0.99, wspace=0.13, hspace=0.75)
 plt.plot([0.847, 0.847], [0.0, 1.01], ':', lw=0.75, color='r')
 plt.plot([0.825, 0.825], [0.0, 1.01], ':', lw=0.75, color='b')
-legend = plt.legend(['Ascending', 'Descending', 
-                     r"$\langle t_c \rangle = 0.847$" + "\n" + "(ascending)", 
-                     r"$\langle t_c \rangle = 0.825$" + "\n" + "(descending)"], 
+legend = plt.legend(['Ascending', 'Descending',
+                     r"$\langle t_c \rangle = 0.847$" + "\n" + "(ascending)",
+                     r"$\langle t_c \rangle = 0.825$" + "\n" + "(descending)"],
                     fontsize=7, loc=4)
 plt.savefig(OutFig, format='eps', dpi=500)
 #plt.savefig(OutFig, dpi=300)
 plt.show()
-
-
-
