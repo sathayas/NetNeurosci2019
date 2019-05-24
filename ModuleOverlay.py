@@ -50,23 +50,12 @@ def section2D(X, sliceCoord, plane):
 
 
 
-# directory info
-#baseMod_RankTh = '/home/satoru/Projects/Connectome/Data/1000FCP/Oxford/Processed/sub47141/Modules/Network_RankTh'
-baseMod_RankTh = '.'
-#baseMod_HardThE = '/home/satoru/Projects/Connectome/Data/1000FCP/Oxford/Processed/sub47141/Modules/Network_HardThE'
-baseMod_HardThE = '.'
-
-
-
 # loading the module info file and image
-fName_RankTh = 'Modules_d' + str(d) + '.npz'
-fModInfoRankTh = os.path.join(baseMod_RankTh, fName_RankTh)
-fNameImg_RankTh = 'Modules_d' + str(d) + '.nii.gz'
-fModImgRankTh = os.path.join(baseMod_RankTh, fNameImg_RankTh)
-fName_HardThE = 'Modules_EQd' + str(d) + '.npz'
-fNameImg_HardThE = 'Modules_EQd' + str(d) + '.nii.gz'
-fModInfoHardThE = os.path.join(baseMod_HardThE, fName_HardThE)
-fModImgHardThE = os.path.join(baseMod_HardThE, fNameImg_HardThE)
+fModInfoRankTh = 'sub16112_RankTh_Modules_d10.npz'
+fModImgRankTh = 'sub16112_RankTh_Modules_d10.nii.gz'
+fModInfoHardThE = 'sub16112_HardThE_Modules_d10.npz'
+fModImgHardThE = 'sub16112_HardThE_Modules_d10.nii.gz'
+
 
 # loading the module info file
 inFileRankTh = np.load(fModInfoRankTh)
@@ -106,7 +95,7 @@ def voxCoordConv(xyzMat, header_f, header_T):
                                  header_T['srow_z'],
                                  [0,0,0,1]])
     invmat_brain2vox_T = np.linalg.inv(imat_vox2brain_T)
-    xyzMatVox = np.matmul(invmat_brain2vox_T, 
+    xyzMatVox = np.matmul(invmat_brain2vox_T,
                           np.matmul(imat_vox2brain_f, xyzMat))
     return xyzMatVox
 
@@ -196,4 +185,3 @@ plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 fOutHardThE = 'ModuleOverlay_HardThE_' + disp_plane + '.png'
 plt.savefig(fOutHardThE, dpi=600)
 #plt.show()
-
