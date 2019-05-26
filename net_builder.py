@@ -61,7 +61,6 @@ def net_builder_HardTh(R, NodeInd, K, cType=1):
 
     returns:
           G:         The resulting graph (networkX format)
-          RTh:       The R-value of the threshold achieveing the target K.
     '''
 
     # first, initialize the graph
@@ -102,4 +101,30 @@ def net_builder_HardTh(R, NodeInd, K, cType=1):
     Elist = np.vstack((NodeInd[trI], NodeInd[trJ])).T
     G.add_edges_from(Elist)
     # finally returning the resultant graph
+    return G
+
+
+
+def net_builder_HardTh_density(R, NodeInd, dens, cType=1):
+    '''
+    a function to construct the network by the hard-thresholding with a disired
+    edge density.
+    input parameters:
+          R:         A dense correlation matrix array.
+          NodeInd:   A list of nodes in the network.
+          dens:      The target edge density, proportion of existing edges vs
+                     all possible edges.
+          cType:     Type of functional connectivity.
+                        1:  Positive correlation only
+                        0:  Both positive and negative correlations
+                        -1: Negative correlation only
+                     The default is 1 (i.e., positive correlation only).
+
+    returns:
+          G:         The resulting graph (networkX format)
+    '''
+    # convert density to average degree
+    K = dens * (len(NodeInd) - 1)
+    # the actual network generation is done by net_builder_HardTh
+    G = net_builder_HardTh(R, NodeInd, K, cType)
     return G
