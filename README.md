@@ -16,4 +16,14 @@ or
 ```
 pip install -r requirements.txt
 ```
-depending on your OS. Unfortunately this does not work on Anaconda users. You have to manually install packages listed in **`requirements.txt`** file.
+depending on your OS. Unfortunately this does not work on Anaconda users (*sorry!*). You have to manually install packages listed in **`requirements.txt`** file.
+
+## Slides & demo note
+You can find the PDF version of my presentation slides here (**insert link**).
+
+The demonstration note is a Jupyter notebook document (**`Demo.ipynb`**). You can open it with Jupyter to run code snippets. Or you can just read it via [NBViewer](https://nbviewer.jupyter.org/github/sathayas/NetNeurosci2019/blob/master/Demo.ipynb) on your web browser (no running of codes though). 
+
+## References
+This presentation is loosely based on my two previously published papers. Both are freely available:
+* Hayasaka S. (2016) *Explosive percolation in thresholded networks.* Physica A 451: 1-9. Available in [arXiv](https://arxiv.org/abs/1504.00050). 
+* Hayasaka S. (2017)  *Anti-Fragmentation of Resting-State Functional Magnetic Resonance Imaging Connectivity Networks with Node-Wise Thresholding.* Brain Connectivity 7(8):504-514. Full text available in [PubMed](https://www.ncbi.nlm.nih.gov/pubmed/28899207)
