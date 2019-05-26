@@ -41,6 +41,7 @@ def net_builder_RankTh(R, NodeInd, d, cType=1):
         # adding connections (for R>0)
         Elist = np.vstack((NodeInd[trI], NodeInd[trJ])).T
         G.add_edges_from(Elist)
+        WorkR[trI, trJ] = 0  # clearing the correlation matrix
     # finally returning the resultant graph
     return G
 
