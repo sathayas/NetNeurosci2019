@@ -1,5 +1,5 @@
 # NetNeurosci2019
-***Repository for codes, figures, and notes for the Network Neurosci Satellite at NetSci2019***
+***Repository for codes, figures, and notes for my talk at the Network Neurosci Satellite, NetSci2019***
 
 ***
 Codes to generate some of the figures for my talk at the Network Neuroscience Satellite Meeting at NetSci2019. Also Jupyter notebook documents for demonstration.
