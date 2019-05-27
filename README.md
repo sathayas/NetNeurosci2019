@@ -19,7 +19,7 @@ pip install -r requirements.txt
 depending on your OS. Unfortunately this does not work on Anaconda users (*sorry!*). You have to manually install packages listed in **`requirements.txt`** file.
 
 ## Slides & demo note
-You can find the PDF version of my presentation slides here (**insert link**).
+You can find the PDF version of my presentation slides [here](https://github.com/sathayas/NetNeurosci2019/raw/master/Hayasaka_Talk_Slides.pdf). Sorry, no animations. You can download / view animations individually on this repo (either .mp4 or .gif format).
 
 The demonstration note is a Jupyter notebook document (**`Demo.ipynb`**). You can open it with Jupyter to run code snippets. Or you can just read it via [NBViewer](https://nbviewer.jupyter.org/github/sathayas/NetNeurosci2019/blob/master/Demo.ipynb) on your web browser (no running of codes though). 
 
